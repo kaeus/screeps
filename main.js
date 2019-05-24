@@ -19,7 +19,7 @@ module.exports.loop = function () {
         var spawnLimit = config.spawnNumbers[role];
         var currentUnits = _.filter(Game.creeps, (creep) => creep.memory.role == role);
         var roleParts = config.role_parts[role];
-        
+
         if (currentUnits.length < spawnLimit && roleParts && !Game.spawns[spawnName].spawning) {
             var newName = role + Game.time;
             console.log('Attempting to spawn another ' + role);
@@ -30,7 +30,7 @@ module.exports.loop = function () {
     if (Game.spawns[spawnName].spawning) {
         var spawningCreep = Game.creeps[Game.spawns[spawnName].spawning.name];
         Game.spawns[spawnName].room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
+            'Spawn: ' + spawningCreep.memory.role,
             Game.spawns[spawnName].pos.x + 1,
             Game.spawns[spawnName].pos.y,
             {align: 'left', opacity: 0.8});
@@ -47,5 +47,10 @@ module.exports.loop = function () {
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
         }
+        
+        if (creep.fatigue == 0) {
+            creep.say('zz');
+        }
+
     }
 }

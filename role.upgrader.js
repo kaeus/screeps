@@ -1,4 +1,4 @@
-var creepTalk = require('creeptalk_emoji');
+var creepTalk = require('creeptalk');
 
 var roleUpgrader = {
 
@@ -13,7 +13,7 @@ var roleUpgrader = {
             creep.memory.upgrading = true;
             creep.say(creepTalk.upgradeController);
         }
-
+        
         if(creep.memory.upgrading) {
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
@@ -25,6 +25,7 @@ var roleUpgrader = {
                 creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
+
     }
 };
 

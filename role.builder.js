@@ -1,4 +1,4 @@
-var creepTalk = require('creeptalk_emoji');
+var creepTalk = require('creeptalk');
 
 var roleBuilder = {
 
@@ -7,7 +7,7 @@ var roleBuilder = {
         if (creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say(creepTalk.harvest);
-        } 
+        }
         if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
             creep.say(creepTalk.build);
@@ -27,6 +27,7 @@ var roleBuilder = {
                 creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
+
     }
 };
 
