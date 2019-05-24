@@ -11,7 +11,7 @@ module.exports = {
     spawnName: 'MainBase',
     spawnNumbers: {
         harvester: 2,
-        builder: 2,
+        builder: 4,
         upgrader: 2
     },
     role_parts: {

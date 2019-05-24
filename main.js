@@ -1,12 +1,17 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
+var roleMap = {
+    harvester: require('role.harvester'),
+    upgrader: require('role.upgrader'),
+    builder: require('role.builder'),
+};
 
 var config = require('config');
+var resourceBalancer = require('resourceBalancer');
 
 var spawnName = config.spawnName;
 
 module.exports.loop = function () {
+
+    //resourceBalancer.findResource(Game.creeps['builder7087005']);
 
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
@@ -36,21 +41,27 @@ module.exports.loop = function () {
             {align: 'left', opacity: 0.8});
     }
 
+    Memory.creepsByRole = {};
+
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if (creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
-        }
-        if (creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
-        }
-        if (creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
+        
+        if (creep.memory.name == null) {
+            creep.memory.name = name;
         }
         
-        if (creep.fatigue == 0) {
-            creep.say('zz');
+        for (var role in roleMap) {
+            if (creep.memory.role == role) {
+                var roleProcedure = roleMap[role];
+                Memory.creepsByRole[role] = Memory.creepsByRole[role] || [];
+                Memory.creepsByRole[role].push(name);
+                roleProcedure.run(creep, Memory.creepsByRole[role].length - 1);
+            }
         }
+        
+        // if (creep.fatigue == 0) {
+        //     creep.say('zz');
+        // }
 
     }
 }

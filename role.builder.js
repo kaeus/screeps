@@ -3,7 +3,7 @@ var creepTalk = require('creeptalk');
 var roleBuilder = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, i) {
         if (creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say(creepTalk.harvest);
@@ -16,15 +16,16 @@ var roleBuilder = {
         if (creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                var constructionSiteIndex = i % targets.length
+                if (creep.build(targets[constructionSiteIndex]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets[constructionSiteIndex], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            var source = creep.pos.findClosestByRange(FIND_SOURCES);
+            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
 
