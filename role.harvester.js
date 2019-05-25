@@ -1,16 +1,15 @@
 var creepTalk = require('creeptalk');
 
-
-
 var roleHarvester = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, i) {
         if(creep.carry.energy < creep.carryCapacity) {
-            var source = creep.pos.findClosestByRange(FIND_SOURCES);
-            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            var sources = creep.room.find(FIND_SOURCES);
+            var sourceIndex = sources.length % i;
+            if (creep.harvest(sources[sourceIndex]) == ERR_NOT_IN_RANGE) {
                 creep.say(creepTalk.harvest);
-                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                creep.moveTo(sources[sourceIndex], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
         else {
